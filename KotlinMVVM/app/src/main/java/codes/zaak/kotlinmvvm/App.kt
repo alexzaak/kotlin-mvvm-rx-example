@@ -16,8 +16,6 @@ class App : Application() {
         private lateinit var appDatabase: AppDatabase
 
         fun injectMovieListViewModel() = movieListViewModel
-
-        fun injectMovieDao() = appDatabase.movieDao()
     }
 
     private var mMoviesList = listOf(Movie(title = "Iron Man", year = 2008, rating = 9),

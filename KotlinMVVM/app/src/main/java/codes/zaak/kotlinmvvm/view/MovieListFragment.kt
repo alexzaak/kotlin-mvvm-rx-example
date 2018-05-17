@@ -16,7 +16,7 @@ import java.net.ConnectException
 
 class MovieListFragment: BaseFragment() {
 
-    val movieListViewModel = App.injectMovieListViewModel()
+    private val movieListViewModel = App.injectMovieListViewModel()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.movielist_fragment, container, false)
@@ -37,9 +37,10 @@ class MovieListFragment: BaseFragment() {
 
     }
 
-    fun showMovie(data: MovieList) {
+    private fun showMovie(data: MovieList) {
         if (data.error == null) {
             list.adapter = CustomAdapter(context, R.layout.list_item, data.movies)
+            headline.text = data.message
         } else if (data.error is ConnectException) {
             Timber.d("Error on loading movies.")
         } else {
@@ -47,7 +48,7 @@ class MovieListFragment: BaseFragment() {
         }
     }
 
-    fun showError() {
-        Toast.makeText(context, "An error occurred :(", Toast.LENGTH_SHORT).show()
+    private fun showError() {
+        Toast.makeText(context, "An error occurred :/", Toast.LENGTH_SHORT).show()
     }
 }

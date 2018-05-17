@@ -6,10 +6,10 @@ import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 
-class MovieRepository(val userDao: MovieDao) {
+class MovieRepository(val movieDao: MovieDao) {
 
     fun getMovies(): Observable<List<Movie>> {
-        return userDao.getMovies()
+        return movieDao.getMovies()
                 .filter { it.isNotEmpty() }
                 .toObservable()
                 .doOnNext {
@@ -18,7 +18,7 @@ class MovieRepository(val userDao: MovieDao) {
     }
 
     fun storeMovies(movies: List<Movie>) {
-        Observable.fromCallable { userDao.insertAll(movies) }
+        Observable.fromCallable { movieDao.insertAll(movies) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(Schedulers.io())
                 .subscribe {

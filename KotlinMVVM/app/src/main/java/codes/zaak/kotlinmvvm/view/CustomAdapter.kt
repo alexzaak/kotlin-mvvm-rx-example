@@ -9,24 +9,14 @@ import android.widget.TextView
 import codes.zaak.kotlinmvvm.R
 import codes.zaak.kotlinmvvm.repository.model.Movie
 
-open class CustomAdapter(ctx: Context?, resource: Int, list: List<Movie>) :
+open class CustomAdapter(var ctx: Context?, var resource: Int, var list: List<Movie>) :
         ArrayAdapter<Movie>(ctx, resource, list) {
 
-    var resource: Int
-    var list: List<Movie>
-    var layoutInflater: LayoutInflater
-    var ctx: Context
-
-    init {
-        this.resource = resource
-        this.list = list
-        this.layoutInflater = ctx?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        this.ctx = ctx
-    }
+    private var layoutInflater: LayoutInflater = ctx?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
         val view: View?
-        var holder: ViewHolder
+        val holder: ViewHolder
 
         if (convertView == null) {
             view = layoutInflater.inflate(resource, null) //error in this line
@@ -38,24 +28,18 @@ open class CustomAdapter(ctx: Context?, resource: Int, list: List<Movie>) :
             holder = view.tag as ViewHolder
         }
 
-        var movie = list[position]
+        val movie = list[position]
         holder.title?.text = movie.title
         holder.year?.text = movie.year.toString()
-        holder.rating?.text = ctx.getString(R.string.rating, movie.rating)
+        holder.rating?.text = ctx?.getString(R.string.rating, movie.rating)
 
         return view
     }
 
     internal class ViewHolder(view: View?) {
-        var title: TextView?
-        var year: TextView?
-        var rating: TextView?
-
-        init {
-            this.title = view?.findViewById(R.id.title)
-            this.year = view?.findViewById(R.id.year)
-            this.rating = view?.findViewById(R.id.rating)
-        }
+        var title: TextView? = view?.findViewById(R.id.title)
+        var year: TextView? = view?.findViewById(R.id.year)
+        var rating: TextView? = view?.findViewById(R.id.rating)
     }
 
 }
